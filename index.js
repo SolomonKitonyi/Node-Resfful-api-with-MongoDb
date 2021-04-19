@@ -4,10 +4,12 @@ const express = require('express');
 const app = express();
 const courses = require('./routes/courses');
 const customers = require('./routes/customers');
+
 app.use(express.json());
 app.use('/api/courses',courses);
+app.use('/api/customers',customers);
 
-mongoose.connect('mongodb://localhost/playground',{useNewUrlParser: true,useUnifiedTopology:true})
+mongoose.connect('mongodb://localhost/playground',{useNewUrlParser: true,useUnifiedTopology:true,useFindAndModify:false})
  .then(()=>console.log("Connected To MongoDb....."))
  .catch(err => console.log("Error",err));
 
