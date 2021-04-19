@@ -3,6 +3,7 @@ const Joi = require('joi');
 const express = require('express');
 const app = express();
 const courses = require('./routes/courses');
+const customers = require('./routes/customers');
 app.use(express.json());
 app.use('/api/courses',courses);
 
