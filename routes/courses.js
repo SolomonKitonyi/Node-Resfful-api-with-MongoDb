@@ -14,9 +14,7 @@ router.get('/',async(req,res)=>{
 
 
 router.get('/:id',async (req,res)=>{
-    if(!mongoose.Types.ObjectId.isValid(req.params.id)){
-        return res.status(400).send("Invalid id")
-    }
+    if(!mongoose.Types.ObjectId.isValid(req.params.id))return res.status(400).send("Invalid id")
     const course = await Course.findById(req.params.id)
     if(!course) return res.status(404).send("The course you are trying to search was not found");
     res.send(course);
@@ -35,7 +33,7 @@ router.post('/',async(req,res)=>{
 router.put('/:id',async(req,res)=>{
     const {error} = validate(req.body);
     if(error)return res.status(400).send(error.details[0].message);
-    if(!mongoose.Types.ObjectId.isValid(req.params.id)) return res.send("Invalid course id");
+    if(!mongoose.Types.ObjectId.isValid(req.params.id)) return res.status(400).send("Invalid course id");
     const course = await Course.findByIdAndUpdate(req.params.id,{name:req.body.name},{
        new:true
     });
@@ -45,6 +43,7 @@ router.put('/:id',async(req,res)=>{
 });
 
 router.delete('/:id',async(req,res)=>{
+    if(!mongoose.Types.ObjectId.isValid(req.params.id)) return res.status(400).send("Invalid course id")
     const course = await Course.findByIdAndRemove(req.params.id);
     if(!course) return res.status(404).send("The course you are trying to search was not found");
     res.send(course);
