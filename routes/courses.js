@@ -1,5 +1,6 @@
 const {Course,validate} = require('../models/course');
 const express = require('express');
+const mongoose = require('mongoose');
 const router = express.Router();
 
 
@@ -13,6 +14,9 @@ router.get('/',async(req,res)=>{
 
 
 router.get('/:id',async (req,res)=>{
+    if(!mongoose.Types.ObjectId.isValid(req.params.id)){
+        return res.status(400).send("Invalid id")
+    }
     const course = await Course.findById(req.params.id)
     if(!course) return res.status(404).send("The course you are trying to search was not found");
     res.send(course);
