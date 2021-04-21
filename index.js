@@ -1,3 +1,4 @@
+const config = require("config");
 const mongoose = require("mongoose");
 const Joi = require("joi");
 const express = require("express");
@@ -12,6 +13,11 @@ app.use("/api/courses", courses);
 app.use("/api/customers", customers);
 app.use("/api/users", users);
 app.use("/api/auth", auth);
+
+if (!config.get("jwtPrivateKey")) {
+	console.error("FATAL ERROR: jwtPrivateKey not defined");
+	process.exit(1);
+}
 
 mongoose
 	.connect("mongodb://localhost/playground", {
