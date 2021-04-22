@@ -1,4 +1,5 @@
 const auth = require("../middleware/auth");
+const admin = require("../middleware/admin");
 const { Course, validate } = require("../models/course");
 const express = require("express");
 const mongoose = require("mongoose");
@@ -51,7 +52,7 @@ router.put("/:id", async (req, res) => {
 	res.send(course);
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", [auth, admin], async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(req.params.id))
 		return res.status(400).send("Invalid course id");
 	const course = await Course.findByIdAndRemove(req.params.id);
