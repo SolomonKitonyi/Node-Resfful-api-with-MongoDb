@@ -1,3 +1,4 @@
+const error = require("./middleware/error");
 const config = require("config");
 const mongoose = require("mongoose");
 const Joi = require("joi");
@@ -13,6 +14,8 @@ app.use("/api/courses", courses);
 app.use("/api/customers", customers);
 app.use("/api/users", users);
 app.use("/api/auth", auth);
+
+app.use(error);
 
 if (!config.get("jwtPrivateKey")) {
 	console.error("FATAL ERROR: jwtPrivateKey not defined");
