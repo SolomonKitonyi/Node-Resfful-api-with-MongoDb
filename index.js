@@ -22,8 +22,13 @@ app.use("/api/auth", auth);
 app.use(error);
 
 process.on("uncaughtException", (ex) => {
-	console.log("We found uncaught Exception");
 	winston.error(ex.message, ex);
+	process.exit(1);
+});
+
+process.on("unhandledRejection", (ex) => {
+	winston.error(ex.message, ex);
+	process.exit(1);
 });
 
 //winston.add(winston.transports.File, { filename: "logfile.log" });
