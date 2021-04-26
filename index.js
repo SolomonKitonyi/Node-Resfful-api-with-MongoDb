@@ -21,6 +21,11 @@ app.use("/api/auth", auth);
 
 app.use(error);
 
+process.on("uncaughtException", (ex) => {
+	console.log("We found uncaught Exception");
+	winston.error(ex.message, ex);
+});
+
 //winston.add(winston.transports.File, { filename: "logfile.log" });
 const logger = winston.createLogger({
 	level: "info",
